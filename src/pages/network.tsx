@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Input from "@/components/StyledInput";
 import Button from "@/components/StyledButton";
+import Header from "@/components/Header";
 
 const Container = styled.div`
   display: flex;
@@ -14,20 +15,11 @@ const Content = styled.div`
   background-color: #ffffff;
 `;
 
-const Header = styled.div`
-  height: 80px;
-  width: 100%;
-  background: #7695ec;
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 700;
-`;
-
 export default function NetworkPage() {
   return (
     <Container>
       <Content>
-        <Header>CodeLeap Network</Header>
+        <Header />
         <p>oi</p>
       </Content>
     </Container>
