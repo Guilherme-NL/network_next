@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { setUserName } from "@/redux/userSlice";
+import { useRouter } from "next/router";
+
 import Input from "@/components/StyledInput";
 import Button from "@/components/StyledButton";
 
@@ -10,7 +15,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const NameBox = styled.div`
+const NameBox = styled.form`
   width: 500px;
   height: 205px;
   background-color: #ffffff;
@@ -25,15 +30,31 @@ const NameBox = styled.div`
 `;
 
 export default function Home() {
+  const [name, setName] = React.useState("");
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(setUserName(name));
+    localStorage.setItem("user", name);
+    router.push("/network");
+  };
+
   return (
     <Container>
-      <NameBox>
+      <NameBox onSubmit={handleSubmit}>
         <h1>Welcome to CodeLeap network!</h1>
         <br />
         <br />
         <p className="input_title">Please enter your username</p>
-        <Input placeholder="John doe" />
-        <Button>ENTER</Button>
+        <Input
+          placeholder="John doe"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Button type="submit">ENTER</Button>
       </NameBox>
     </Container>
   );
