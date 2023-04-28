@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import Input from "@/components/StyledInput";
-import Button from "@/components/StyledButton";
 import Header from "@/components/Header";
+import YourMind from "@/components/YourMind";
 
 const Container = styled.div`
   display: flex;
@@ -13,6 +12,8 @@ const Container = styled.div`
 const Content = styled.div`
   width: 800px;
   background-color: #ffffff;
+  padding: 0 24px;
+  position: relative;
 `;
 
 export default function NetworkPage() {
@@ -20,7 +21,7 @@ export default function NetworkPage() {
     <Container>
       <Content>
         <Header />
-        <p>oi</p>
+        <YourMind />
       </Content>
     </Container>
   );

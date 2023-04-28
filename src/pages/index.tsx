@@ -22,11 +22,6 @@ const NameBox = styled.div`
     font-size: 22px;
     font-weight: 700;
   }
-
-  p {
-    font-size: 16px;
-    font-weight: 400;
-  }
 `;
 
 export default function Home() {
@@ -36,7 +31,7 @@ export default function Home() {
         <h1>Welcome to CodeLeap network!</h1>
         <br />
         <br />
-        <p>Please enter your username</p>
+        <p className="input_title">Please enter your username</p>
         <Input placeholder="John doe" />
         <Button>ENTER</Button>
       </NameBox>

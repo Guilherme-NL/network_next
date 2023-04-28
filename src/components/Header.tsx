@@ -6,6 +6,9 @@ const HeaderComponent = styled.div`
   height: 80px;
   width: 100%;
   background: #7695ec;
+  position: absolute;
+  top: 0;
+  right: 0;
 
   h1 {
     margin-left: 37px;

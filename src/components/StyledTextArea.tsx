@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledTextArea = styled.textarea`
-  height: 32px;
+  height: 74px;
   width: 100%;
   background: #ffffff;
   border: 1px solid #777777;
