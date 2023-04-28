@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Header from "@/components/Header";
 import YourMind from "@/components/YourMind";
+import Posts from "@/components/Posts";
 
 const Container = styled.div`
   display: flex;
@@ -22,6 +23,7 @@ export default function NetworkPage() {
       <Content>
         <Header />
         <YourMind />
+        <Posts />
       </Content>
     </Container>
   );
