@@ -22,6 +22,12 @@ const StyledButton = styled.button`
   &:hover {
     background-color: #1d3f8c;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    background-color: gray;
+    cursor: not-allowed;
+  }
 `;
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}

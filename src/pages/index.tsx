@@ -31,6 +31,7 @@ const NameBox = styled.form`
 
 export default function Home() {
   const [name, setName] = React.useState("");
+  const isSubmitDisabled = name.trim() === "";
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -54,7 +55,9 @@ export default function Home() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <Button type="submit">ENTER</Button>
+        <Button type="submit" disabled={isSubmitDisabled}>
+          ENTER
+        </Button>
       </NameBox>
     </Container>
   );
