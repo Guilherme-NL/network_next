@@ -6,6 +6,10 @@ const store = configureStore({
   reducer: {
     user: userReducer,
   },
+  devTools: true,
 });
+
+export type AppStore = ReturnType<any>;
+export type AppState = ReturnType<AppStore["getState"]>;
 
 export default store;

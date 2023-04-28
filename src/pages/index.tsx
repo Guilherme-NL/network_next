@@ -38,6 +38,7 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setUserName(name));
+    console.log(name);
     localStorage.setItem("user", name);
     router.push("/network");
   };
