@@ -10,7 +10,8 @@ const StyledInput = styled.input`
   margin: 8px 0 8px 0;
   padding: 8px;
 `;
-interface InputProps extends React.HTMLProps<HTMLInputElement> {}
+
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input: React.FC<InputProps> = (props) => {
   return <StyledInput {...props} />;
