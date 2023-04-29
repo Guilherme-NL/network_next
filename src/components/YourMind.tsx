@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { AppState } from "@/redux/store";
+import { selectAuthUser } from "@/redux/authSlice";
 
 import Input from "@/components/StyledInput";
 import Button from "@/components/StyledButton";
@@ -22,8 +22,7 @@ export default function YourMind() {
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
   const isSubmitDisabled = title.trim() === "" || content.trim() === "";
-  const username = useSelector((state: AppState) => state.user.name);
-  console.log(useSelector((state: AppState) => state.user));
+  const username = useSelector(selectAuthUser);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

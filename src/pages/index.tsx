@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { setUserName } from "@/redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuthUser, setAuthUser } from "@/redux/authSlice";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 import Input from "@/components/StyledInput";
 import Button from "@/components/StyledButton";
+import { wrapper } from "@/redux/store";
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +31,21 @@ const NameBox = styled.form`
   }
 `;
 
-export default function Home() {
+export const getStaticProps = wrapper.getStaticProps(
+  (store) =>
+    async ({ params }) => {
+      const posts = await axios.get("https://dev.codeleap.co.uk/careers/");
+      const results = posts.data;
+      return {
+        props: {
+          results,
+        },
+      };
+    }
+);
+
+export default function Home({ results }) {
+  console.log(results);
   const [name, setName] = React.useState("");
   const isSubmitDisabled = name.trim() === "";
   const dispatch = useDispatch();
@@ -37,7 +53,7 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(setUserName(name));
+    dispatch(setAuthUser(name));
     console.log(name);
     localStorage.setItem("user", name);
     router.push("/network");
