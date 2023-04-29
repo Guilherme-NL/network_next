@@ -1,6 +1,15 @@
 import styled from "styled-components";
+import React from "react";
 import { TbTrashXFilled } from "react-icons/tb";
 import { FaRegEdit } from "react-icons/fa";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectAuthUser } from "@/redux/authSlice";
+import DeleteModal from "./DeleteModal";
+
+const PostsComponent = styled.div`
+  margin-bottom: 200px;
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -67,33 +76,79 @@ const BodyHeader = styled.div`
 `;
 
 export default function Posts() {
-  return (
-    <Container>
-      <Header>
-        <h1>My First Post at CodeLeap Network</h1>
-        <EditIcons>
-          <TbTrashXFilled className="icon" />
-          <FaRegEdit className="icon" />
-        </EditIcons>
-      </Header>
-      <Body>
-        <BodyHeader>
-          <p className="post_owner">@Victor</p>
-          <p className="post_time">25 minutes ago</p>
-        </BodyHeader>
+  interface IData {
+    id: number;
+    username: string;
+    created_datetime: string;
+    title: string;
+    content: string;
+  }
 
-        <br />
-        <p className="post_content">
-          Curabitur suscipit suscipit tellus. Phasellus consectetuer vestibulum
-          elit. Pellentesque habitant morbi tristique senectus et netus et
-          malesuada fames ac turpis egestas. Maecenas egestas arcu quis ligula
-          mattis placerat. Duis vel nibh at velit scelerisque suscipit. <br />{" "}
-          <br /> Duis lobortis massa imperdiet quam. Aenean posuere, tortor sed
-          cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor
-          sagittis lacus. Fusce a quam. Nullam vel sem. Nullam cursus lacinia
-          erat.
-        </p>
-      </Body>
-    </Container>
+  const username = useSelector(selectAuthUser);
+  const [posts, setPosts] = React.useState<IData[]>([]);
+  const [selectedPostId, setSelectedPostId] = React.useState<number | null>(
+    null
+  );
+
+  React.useEffect(() => {
+    const url = "https://dev.codeleap.co.uk/careers/";
+    axios
+      .get(url)
+      .then((response) => {
+        setPosts(response.data.results);
+      })
+      .catch((err) => {
+        alert(err.response.statusText);
+      });
+  }, []);
+
+  const handleDelete = () => {
+    const url = `https://dev.codeleap.co.uk/careers/${selectedPostId}/`;
+    const backupPosts = [...posts];
+    //optimistic update
+    setPosts(posts.filter((post) => post.id !== selectedPostId));
+    axios.delete(url).catch((err) => {
+      console.log("ops, não foi possível deletar o seu post");
+      setPosts(backupPosts);
+    });
+    setSelectedPostId(null);
+  };
+
+  return (
+    <PostsComponent>
+      {posts.map((post) => {
+        const showEditIcons = username === post.username;
+        return (
+          <Container key={post.id}>
+            <Header>
+              <h1>{post.title}</h1>
+              {showEditIcons && (
+                <EditIcons>
+                  <TbTrashXFilled
+                    className="icon"
+                    onClick={() => setSelectedPostId(post.id)}
+                  />
+                  <FaRegEdit className="icon" />
+                </EditIcons>
+              )}
+            </Header>
+            <Body>
+              <BodyHeader>
+                <p className="post_owner">@{post.username}</p>
+                <p className="post_time">25 minutes ago</p>
+              </BodyHeader>
+              <br />
+              <p className="post_content">{post.content}</p>
+            </Body>
+            {selectedPostId === post.id && (
+              <DeleteModal
+                onCancel={() => setSelectedPostId(null)}
+                onDelete={handleDelete}
+              />
+            )}
+          </Container>
+        );
+      })}
+    </PostsComponent>
   );
 }

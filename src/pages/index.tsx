@@ -44,8 +44,8 @@ export const getStaticProps = wrapper.getStaticProps(
     }
 );
 
-export default function Home({ results }) {
-  console.log(results);
+export default function Home() {
+
   const [name, setName] = React.useState("");
   const isSubmitDisabled = name.trim() === "";
   const dispatch = useDispatch();
