@@ -6,6 +6,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectAuthUser } from "@/redux/authSlice";
 import DeleteModal from "./DeleteModal";
+import EditModal from "./EditModal";
 
 const PostsComponent = styled.div`
   margin-bottom: 200px;
@@ -85,10 +86,15 @@ export default function Posts() {
   }
 
   const username = useSelector(selectAuthUser);
+  const [title, setTitle] = React.useState<string>("");
+  const [content, setContent] = React.useState<string>("");
   const [posts, setPosts] = React.useState<IData[]>([]);
-  const [selectedPostId, setSelectedPostId] = React.useState<number | null>(
-    null
-  );
+  const [selectedPostDeleteId, setSelectedPostDeleteId] = React.useState<
+    number | null
+  >(null);
+  const [selectedPostEditId, setSelectedPostEditId] = React.useState<
+    number | null
+  >(null);
 
   React.useEffect(() => {
     const url = "https://dev.codeleap.co.uk/careers/";
@@ -103,15 +109,39 @@ export default function Posts() {
   }, []);
 
   const handleDelete = () => {
-    const url = `https://dev.codeleap.co.uk/careers/${selectedPostId}/`;
-    const backupPosts = [...posts];
+    const url = `https://dev.codeleap.co.uk/careers/${selectedPostDeleteId}/`;
     //optimistic update
-    setPosts(posts.filter((post) => post.id !== selectedPostId));
+    const backupPosts = [...posts];
+    setPosts(posts.filter((post) => post.id !== selectedPostDeleteId));
     axios.delete(url).catch((err) => {
       console.log("ops, não foi possível deletar o seu post");
       setPosts(backupPosts);
     });
-    setSelectedPostId(null);
+    setSelectedPostDeleteId(null);
+  };
+
+  const handleEdit = () => {
+    const url = `https://dev.codeleap.co.uk/careers/${selectedPostEditId}/`;
+    const body = {
+      title,
+      content,
+    };
+    //optimistic update
+    const backupPosts = [...posts];
+    setPosts(
+      posts.map((post) => {
+        if (post.id === selectedPostEditId) {
+          return { ...post, title, content };
+        } else {
+          return post;
+        }
+      })
+    );
+    axios.patch(url, body).catch((err) => {
+      console.log("ops, não foi possível editar o seu post");
+      setPosts(backupPosts);
+    });
+    setSelectedPostEditId(null);
   };
 
   return (
@@ -126,9 +156,12 @@ export default function Posts() {
                 <EditIcons>
                   <TbTrashXFilled
                     className="icon"
-                    onClick={() => setSelectedPostId(post.id)}
+                    onClick={() => setSelectedPostDeleteId(post.id)}
                   />
-                  <FaRegEdit className="icon" />
+                  <FaRegEdit
+                    className="icon"
+                    onClick={() => setSelectedPostEditId(post.id)}
+                  />
                 </EditIcons>
               )}
             </Header>
@@ -140,10 +173,20 @@ export default function Posts() {
               <br />
               <p className="post_content">{post.content}</p>
             </Body>
-            {selectedPostId === post.id && (
+            {selectedPostDeleteId === post.id && (
               <DeleteModal
-                onCancel={() => setSelectedPostId(null)}
+                onCancel={() => setSelectedPostDeleteId(null)}
                 onDelete={handleDelete}
+              />
+            )}
+            {selectedPostEditId === post.id && (
+              <EditModal
+                onCancel={() => setSelectedPostEditId(null)}
+                onSave={handleEdit}
+                setTitle={setTitle}
+                setContent={setContent}
+                title={title}
+                content={content}
               />
             )}
           </Container>

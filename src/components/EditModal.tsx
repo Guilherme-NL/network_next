@@ -1,21 +1,50 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import Input from "@/components/StyledInput";
+import TextArea from "@/components/StyledTextArea";
+
 type Props = {
   onCancel: () => void;
-  onDelete: () => void;
+  onSave: () => void;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  title: string;
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+  content: string;
 };
 
-const DeleteModal: FC<Props> = ({ onCancel, onDelete }) => {
+const EditModal: FC<Props> = ({
+  onCancel,
+  onSave,
+  setTitle,
+  title,
+  setContent,
+  content,
+}) => {
   return (
     <Container>
       <Modal>
-        <h1>Are you sure you want to delete this post?</h1>
+        <h1>Edit item</h1>
         <br />
         <br />
+        <p className="input_title">Title</p>
+        <Input
+          placeholder="Hello world"
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <br />
+        <br />
+        <p className="input_title">Content</p>
+        <TextArea
+          placeholder="Content here"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
         <Actions>
           <CancelButton onClick={onCancel}>Cancel</CancelButton>
-          <DeleteButton onClick={onDelete}>Delete</DeleteButton>
+          <DeleteButton onClick={onSave}>Save</DeleteButton>
         </Actions>
       </Modal>
     </Container>
@@ -69,8 +98,8 @@ const CancelButton = styled(Button)`
 `;
 
 const DeleteButton = styled(Button)`
-  background-color: #ff5151;
+  background-color: #47b960;
   color: #ffffff;
 `;
 
-export default DeleteModal;
+export default EditModal;
