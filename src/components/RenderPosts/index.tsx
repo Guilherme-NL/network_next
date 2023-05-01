@@ -1,14 +1,13 @@
 import React from "react";
-import styled from "styled-components";
-
 import { TbTrashXFilled } from "react-icons/tb";
 import { FaRegEdit } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { fetchPosts } from "@/redux/postSlice";
 import axios from "axios";
-import DeleteModal from "./DeleteModal";
-import EditModal from "./EditModal";
+import DeleteModal from "../DeleteModal";
+import EditModal from "../EditModal";
+import { Body, BodyHeader, Container, EditIcons, Header } from "./styles";
 
 type PostComponentProps = {
   post: {
@@ -80,7 +79,7 @@ export default function RenderPosts({
   }, [post.created_datetime]);
 
   return (
-    <Container key={post.id}>
+    <Container>
       <Header>
         <h1>{post.title}</h1>
         {showEditIcons && (
@@ -123,68 +122,3 @@ export default function RenderPosts({
     </Container>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #999999;
-  border-radius: 16px;
-  margin-top: 24px;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  min-height: 70px;
-  width: 100%;
-  background-color: #7695ec;
-  border-radius: 15px 15px 0px 0px;
-  padding: 24px;
-
-  h1 {
-    color: #ffffff;
-  }
-`;
-
-const EditIcons = styled.div`
-  width: 70px;
-  display: flex;
-  justify-content: space-between;
-
-  .icon {
-    color: #ffffff;
-    width: 25px;
-    height: auto;
-    cursor: pointer;
-  }
-`;
-
-const Body = styled.div`
-  padding: 24px;
-
-  .post_owner {
-    font-weight: 700;
-    color: #777777;
-    font-size: 18px;
-  }
-
-  .post_time {
-    font-weight: 400;
-    color: #777777;
-    font-size: 18px;
-  }
-
-  .post_content {
-    font-weight: 400;
-    font-size: 18px;
-    color: #000000;
-  }
-`;
-
-const BodyHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;

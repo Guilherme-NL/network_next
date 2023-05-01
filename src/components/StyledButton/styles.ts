@@ -1,12 +1,11 @@
-import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   background: #7695ec;
   border-radius: 8px;
   height: 32px;
@@ -29,15 +28,3 @@ const StyledButton = styled.button`
     cursor: not-allowed;
   }
 `;
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
-
-const Button: React.FC<ButtonProps> = (props) => {
-  return (
-    <Container>
-      <StyledButton {...props} />
-    </Container>
-  );
-};
-
-export default Button;

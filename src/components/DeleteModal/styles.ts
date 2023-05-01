@@ -1,28 +1,6 @@
-import React, { FC } from "react";
 import styled from "styled-components";
 
-type Props = {
-  onCancel: () => void;
-  onDelete: () => void;
-};
-
-const DeleteModal: FC<Props> = ({ onCancel, onDelete }) => {
-  return (
-    <Container>
-      <Modal>
-        <h1>Are you sure you want to delete this post?</h1>
-        <br />
-        <br />
-        <Actions>
-          <CancelButton onClick={onCancel}>Cancel</CancelButton>
-          <DeleteButton onClick={onDelete}>Delete</DeleteButton>
-        </Actions>
-      </Modal>
-    </Container>
-  );
-};
-
-const Container = styled.div`
+export const Container = styled.div`
   background-color: rgba(119, 119, 119, 0.5);
   position: fixed;
   top: 0;
@@ -35,7 +13,7 @@ const Container = styled.div`
   z-index: 1;
 `;
 
-const Modal = styled.div`
+export const Modal = styled.div`
   width: 660px;
   background-color: #fff;
   border: 1px solid #999999;
@@ -46,13 +24,13 @@ const Modal = styled.div`
   justify-content: center;
 `;
 
-const Actions = styled.div`
+export const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   width: 120px;
   height: 32px;
   border-radius: 8px;
@@ -62,15 +40,13 @@ const Button = styled.button`
   font-weight: 700;
 `;
 
-const CancelButton = styled(Button)`
+export const CancelButton = styled(Button)`
   background-color: #ffffff;
   color: #000000;
   border: 1px solid #999999;
 `;
 
-const DeleteButton = styled(Button)`
+export const DeleteButton = styled(Button)`
   background-color: #ff5151;
   color: #ffffff;
 `;
-
-export default DeleteModal;

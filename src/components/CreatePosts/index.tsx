@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "@/redux/authSlice";
@@ -7,15 +6,7 @@ import { addPost, selectPosts } from "@/redux/postSlice";
 import Input from "@/components/StyledInput";
 import Button from "@/components/StyledButton";
 import TextArea from "@/components/StyledTextArea";
-
-const Container = styled.form`
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #999999;
-  border-radius: 16px;
-  padding: 24px;
-  margin-top: 104px;
-`;
+import { Container } from "./styles";
 
 export default function CreatePosts() {
   const [title, setTitle] = React.useState<string>("");

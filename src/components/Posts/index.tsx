@@ -1,11 +1,11 @@
-import styled from "styled-components";
 import React from "react";
 import { selectAuthUser } from "@/redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts, selectPosts } from "@/redux/postSlice";
-import RenderPosts from "./RenderPosts";
+import RenderPosts from "../RenderPosts";
 import InfiniteScroll from "react-infinite-scroller";
-import Loading from "./Loader";
+import Loading from "../Loader";
+import { LoadingComponent, PostsComponent } from "./styles";
 
 export default function Posts() {
   const [username, setUsername] = React.useState<string>("");
@@ -52,25 +52,12 @@ export default function Posts() {
         {posts.data.results?.map((post) => {
           const showEditIcons = username === post.username;
           return (
-            <RenderPosts
-              key={post.id}
-              post={post}
-              showEditIcons={showEditIcons}
-            />
+            <div key={post.id}>
+              <RenderPosts post={post} showEditIcons={showEditIcons} />
+            </div>
           );
         })}
       </InfiniteScroll>
     </PostsComponent>
   );
 }
-
-const PostsComponent = styled.div`
-  margin-bottom: 200px;
-`;
-
-const LoadingComponent = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;

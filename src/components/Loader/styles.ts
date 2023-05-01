@@ -1,9 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-export default function Loading() {
-  return <Container />;
-}
-
 const rotate = keyframes`
     0% {
         transform: rotate(0deg);
@@ -13,7 +9,7 @@ const rotate = keyframes`
     }
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   display: inline-block;
   width: 80px;
   height: 80px;

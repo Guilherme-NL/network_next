@@ -1,12 +1,12 @@
-import styled from "styled-components";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser, setAuthUser } from "@/redux/authSlice";
 import { useRouter } from "next/router";
 
-import Input from "@/components/StyledInput";
-import Button from "@/components/StyledButton";
 import Loading from "@/components/Loader";
+import { Container, LoadingComponent, NameBox } from "./styles";
+import Button from "@/components/StyledButton";
+import Input from "@/components/StyledInput";
 
 export default function Home() {
   const [name, setName] = React.useState("");
@@ -56,33 +56,3 @@ export default function Home() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-`;
-
-const NameBox = styled.form`
-  width: 500px;
-  height: 205px;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border-radius: 16px;
-  padding: 25px;
-
-  h1 {
-    font-size: 22px;
-    font-weight: 700;
-  }
-`;
-
-const LoadingComponent = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
