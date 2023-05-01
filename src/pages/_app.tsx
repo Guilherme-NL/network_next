@@ -10,7 +10,7 @@ export default function App({ Component, ...rest }: AppProps) {
   const { pageProps } = props;
   return (
     <Provider store={store}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </Provider>
   );
 }

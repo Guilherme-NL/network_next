@@ -31,21 +31,7 @@ const NameBox = styled.form`
   }
 `;
 
-export const getStaticProps = wrapper.getStaticProps(
-  (store) =>
-    async ({ params }) => {
-      const posts = await axios.get("https://dev.codeleap.co.uk/careers/");
-      const results = posts.data;
-      return {
-        props: {
-          results,
-        },
-      };
-    }
-);
-
 export default function Home() {
-
   const [name, setName] = React.useState("");
   const isSubmitDisabled = name.trim() === "";
   const dispatch = useDispatch();
@@ -54,7 +40,6 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setAuthUser(name));
-    console.log(name);
     localStorage.setItem("user", name);
     router.push("/network");
   };

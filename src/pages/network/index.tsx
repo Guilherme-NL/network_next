@@ -1,6 +1,10 @@
 import styled from "styled-components";
+import { setPosts } from "@/redux/postSlice";
+import { wrapper } from "@/redux/store";
+import axios from "axios";
+
 import Header from "@/components/Header";
-import YourMind from "@/components/YourMind";
+import CreatePosts from "@/components/CreatePosts";
 import Posts from "@/components/Posts";
 
 const Container = styled.div`
@@ -18,12 +22,22 @@ const Content = styled.div`
   position: relative;
 `;
 
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  const posts = await axios.get("https://dev.codeleap.co.uk/careers/");
+  const results = posts.data;
+  store.dispatch(setPosts({ data: results, status: "success" }));
+  return {
+    props: {},
+    revalidate: 10,
+  };
+});
+
 export default function NetworkPage() {
   return (
     <Container>
       <Content>
         <Header />
-        <YourMind />
+        <CreatePosts />
         <Posts />
       </Content>
     </Container>

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { HYDRATE } from "next-redux-wrapper";
 import { AppState } from "@/redux/store";
 
 interface UserState {
@@ -17,14 +16,6 @@ const authSlice = createSlice({
   reducers: {
     setAuthUser: (state, action) => {
       state.authUser = action.payload;
-    },
-  },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.auth,
-      };
     },
   },
 });

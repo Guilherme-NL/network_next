@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import React from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "@/redux/authSlice";
+import { addPost, selectPosts } from "@/redux/postSlice";
 
 import Input from "@/components/StyledInput";
 import Button from "@/components/StyledButton";
@@ -17,33 +17,21 @@ const Container = styled.form`
   margin-top: 104px;
 `;
 
-export default function YourMind() {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [title, setTitle] = React.useState("");
-  const [content, setContent] = React.useState("");
+export default function CreatePosts() {
+  const [title, setTitle] = React.useState<string>("");
+  const [content, setContent] = React.useState<string>("");
   const isSubmitDisabled = title.trim() === "" || content.trim() === "";
   const username = useSelector(selectAuthUser);
+  const dispatch = useDispatch();
+  const posts = useSelector(selectPosts);
+  const isAddPostLoading = posts.status === "pending";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    const url = "https://dev.codeleap.co.uk/careers/";
-    const body = { username, title, content };
-
-    axios
-      .post(url, body)
-      .then(() => {
-        setIsLoading(false);
-        setTitle("");
-        setContent("");
-      })
-      .catch((err) => {
-        alert(err.response.statusText);
-        setIsLoading(false);
-        setTitle("");
-        setContent("");
-      });
+    //@ts-ignore
+    dispatch(addPost({ username, title, content }));
+    setTitle("");
+    setContent("");
   };
 
   return (
@@ -57,7 +45,7 @@ export default function YourMind() {
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        disabled={isLoading}
+        disabled={isAddPostLoading}
       />
       <br />
       <br />
@@ -66,7 +54,7 @@ export default function YourMind() {
         placeholder="Content here"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        disabled={isLoading}
+        disabled={isAddPostLoading}
       />
       <Button type="submit" disabled={isSubmitDisabled}>
         Create
