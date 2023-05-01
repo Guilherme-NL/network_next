@@ -63,7 +63,6 @@ export const fetchPosts = createAsyncThunk(
     const response = await axios.get(
       `https://dev.codeleap.co.uk/careers/?limit=${limit}&offset=0/`
     );
-    console.log({ data: response.data });
     return { data: response.data };
   }
 );

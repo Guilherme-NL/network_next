@@ -136,7 +136,8 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70px;
+
+  min-height: 70px;
   width: 100%;
   background-color: #7695ec;
   border-radius: 15px 15px 0px 0px;

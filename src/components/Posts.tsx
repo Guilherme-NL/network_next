@@ -17,18 +17,23 @@ export default function Posts() {
 
   React.useEffect(() => setUsername(user), [user]);
 
-  async function loadPosts() {
+  function loadPosts() {
     if (isFetchPostsLoading) return;
 
     setIsFetchPostsLoading(true);
+
     //@ts-ignore
-    const posts = await dispatch(fetchPosts(limit));
-    if (posts.payload.data.next === null) {
-      setHasMore(false);
-      return;
-    }
-    setLimit(limit + 10);
-    setIsFetchPostsLoading(false);
+    dispatch(fetchPosts(limit))
+      .then((posts: any) => {
+        if (posts.payload.data.next === null) {
+          setHasMore(false);
+          return;
+        }
+        setLimit(limit + 10);
+      })
+      .finally(() => {
+        setIsFetchPostsLoading(false);
+      });
   }
 
   return (
