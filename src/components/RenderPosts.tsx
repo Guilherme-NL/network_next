@@ -77,7 +77,7 @@ export default function RenderPosts({
     } else {
       setTimeAgo(`${Math.round(timeDiff / 86400)} days ago`);
     }
-  }, []);
+  }, [post.created_datetime]);
 
   return (
     <Container key={post.id}>

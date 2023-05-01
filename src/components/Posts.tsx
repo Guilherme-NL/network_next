@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts, selectPosts } from "@/redux/postSlice";
 import RenderPosts from "./RenderPosts";
 import InfiniteScroll from "react-infinite-scroller";
+import Loading from "./Loader";
 
 export default function Posts() {
   const [username, setUsername] = React.useState<string>("");
@@ -42,7 +43,11 @@ export default function Posts() {
         pageStart={0}
         loadMore={loadPosts}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={
+          <LoadingComponent>
+            <Loading />
+          </LoadingComponent>
+        }
       >
         {posts.data.results?.map((post) => {
           const showEditIcons = username === post.username;
@@ -61,4 +66,11 @@ export default function Posts() {
 
 const PostsComponent = styled.div`
   margin-bottom: 200px;
+`;
+
+const LoadingComponent = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

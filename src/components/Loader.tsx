@@ -24,8 +24,8 @@ const Container = styled.div`
     height: 64px;
     margin: 8px;
     border-radius: 50%;
-    border: 6px solid #fff;
-    border-color: #fff transparent #fff transparent;
+    border: 6px solid #7695ec;
+    border-color: #7695ec transparent #7695ec transparent;
     animation: ${rotate} 1.2s linear infinite;
   }
 `;
