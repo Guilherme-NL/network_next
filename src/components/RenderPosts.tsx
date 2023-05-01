@@ -42,6 +42,7 @@ export default function RenderPosts({
     await axios.delete(url).catch((err) => {
       console.log("ops, não foi possível deletar o seu post");
     });
+    //@ts-ignore
     dispatch(fetchPosts());
     setSelectedPostDeleteId(null);
   };
@@ -55,6 +56,7 @@ export default function RenderPosts({
     await axios.patch(url, body).catch((err) => {
       console.log(err);
     });
+    //@ts-ignore
     dispatch(fetchPosts());
     setSelectedPostEditId(null);
   };
