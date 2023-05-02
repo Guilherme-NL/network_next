@@ -1,20 +1,19 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAuthUser, setAuthUser } from "@/redux/authSlice";
-import { useRouter } from "next/router";
-
 import Loading from "@/components/Loader";
-import { Container, LoadingComponent, NameBox } from "./styles";
 import Button from "@/components/StyledButton";
 import Input from "@/components/StyledInput";
+import { useUser } from "@/hooks/useUser";
+import { setAuthUser } from "@/redux/authSlice";
+import { useRouter } from "next/router";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { Container, LoadingComponent, NameBox } from "./styles";
 
 export default function Home() {
   const [name, setName] = React.useState("");
   const isSubmitDisabled = name.trim() === "";
   const dispatch = useDispatch();
   const router = useRouter();
-  const [username, setUsername] = React.useState<string>("");
-  const user = useSelector(selectAuthUser);
+  const { userName } = useUser();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,20 +22,15 @@ export default function Home() {
     router.push("/network");
   };
 
-  React.useEffect(() => setUsername(user), [user]);
+  if (userName) {
+    return (
+      <LoadingComponent>
+        <Loading />
+      </LoadingComponent>
+    );
+  }
 
-  React.useEffect(() => {
-    const username = localStorage.getItem("user");
-    if (username) {
-      router.push("network");
-    }
-  }, []);
-
-  return username ? (
-    <LoadingComponent>
-      <Loading />
-    </LoadingComponent>
-  ) : (
+  return (
     <Container>
       <NameBox onSubmit={handleSubmit}>
         <h1>Welcome to CodeLeap network!</h1>

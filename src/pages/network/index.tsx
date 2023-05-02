@@ -1,21 +1,36 @@
-import { setPosts } from "@/redux/postSlice";
+import { Data, selectPosts, setPosts } from "@/redux/postSlice";
 import { wrapper } from "@/redux/store";
-import axios from "axios";
 
-import Header from "@/components/Header";
 import CreatePosts from "@/components/CreatePosts";
-import { useSelector } from "react-redux";
-import { selectAuthUser } from "@/redux/authSlice";
-import React from "react";
-import router from "next/router";
+import Header from "@/components/Header";
 import Loading from "@/components/Loader";
 import Posts from "@/components/Posts";
-import { Container, Content, LoadingComponent } from "./styles";
+import { useUser } from "@/hooks/useUser";
+import { PostService } from "@/services/PostService";
+import { useSelector } from "react-redux";
+import { Container, Content, ErrorMessage, LoadingComponent } from "./styles";
 
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  const posts = await axios.get("https://dev.codeleap.co.uk/careers/");
-  const results = posts.data;
-  store.dispatch(setPosts({ data: results, status: "success" }));
+  try {
+    const posts = await PostService.getInitialPosts();
+    const results = posts.data;
+    store.dispatch(
+      setPosts({
+        data: results,
+        status: "success",
+        limit: 20,
+      })
+    );
+  } catch (e) {
+    store.dispatch(
+      setPosts({
+        data: {} as Data,
+        status: "error",
+        limit: 20,
+      })
+    );
+  }
+
   return {
     props: {},
     revalidate: 10,
@@ -23,28 +38,27 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
 });
 
 export default function NetworkPage() {
-  const [username, setUsername] = React.useState<string>("");
-  const user = useSelector(selectAuthUser);
-  React.useEffect(() => setUsername(user), [user]);
+  const posts = useSelector(selectPosts);
+  const { userName } = useUser();
 
-  React.useEffect(() => {
-    const username = localStorage.getItem("user");
-    if (!username) {
-      router.push("/");
-    }
-  }, []);
+  if (!userName) {
+    return (
+      <LoadingComponent>
+        <Loading />
+      </LoadingComponent>
+    );
+  }
 
-  return username ? (
+  return (
     <Container>
       <Content>
         <Header />
         <CreatePosts />
+        {posts.status === "error" ? (
+          <ErrorMessage>{posts.errorMessage}</ErrorMessage>
+        ) : null}
         <Posts />
       </Content>
     </Container>
-  ) : (
-    <LoadingComponent>
-      <Loading />
-    </LoadingComponent>
   );
 }

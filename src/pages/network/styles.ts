@@ -22,3 +22,10 @@ export const LoadingComponent = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px 0;
+`;

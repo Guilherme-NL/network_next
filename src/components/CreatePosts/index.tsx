@@ -1,11 +1,12 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "@/redux/authSlice";
 import { addPost, selectPosts } from "@/redux/postSlice";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import Input from "@/components/StyledInput";
 import Button from "@/components/StyledButton";
+import Input from "@/components/StyledInput";
 import TextArea from "@/components/StyledTextArea";
+import { AppDispatch } from "@/redux/store";
 import { Container } from "./styles";
 
 export default function CreatePosts() {
@@ -13,13 +14,12 @@ export default function CreatePosts() {
   const [content, setContent] = React.useState<string>("");
   const isSubmitDisabled = title.trim() === "" || content.trim() === "";
   const username = useSelector(selectAuthUser);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const posts = useSelector(selectPosts);
   const isAddPostLoading = posts.status === "pending";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(addPost({ username, title, content }));
     setTitle("");
     setContent("");
