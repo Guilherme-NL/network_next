@@ -32,7 +32,7 @@ export default function Posts() {
         loadMore={loadPosts}
         hasMore={hasMore}
         loader={
-          <LoadingComponent>
+          <LoadingComponent key={0}>
             <Loading />
           </LoadingComponent>
         }

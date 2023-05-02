@@ -12,7 +12,7 @@ export const useUser = () => {
       return;
     }
 
-    if (user && router.asPath !== "/network") {
+    if (user && router.asPath === "/") {
       router.push("/network");
     }
   }, []);
