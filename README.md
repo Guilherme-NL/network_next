@@ -2,7 +2,7 @@
 
 The application can be accessed via the URL:
 
-### https://network-next-two.vercel.app/network
+### https://network-next-two.vercel.app/
 
 ## Proposal:
 
